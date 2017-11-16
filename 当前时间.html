@@ -1,0 +1,37 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>无标题文档</title>
+<script language="javascript" >
+function Joindemo()
+{
+	var a,b;
+	a=new Array("X",1,"s","2",4,5,6);
+	b=a.sort();
+	return(b);
+}
+alert(Joindemo());
+function DateDemo(){
+	var d,s="Today's data is: ",w="\nToday is ",t="\nThe current local time is : ";
+	var day,x=new Array("Sunday.","Monday.","Tuesday.","Wednesday.","Thursday.","Friday.","Saturday.")
+	d=new Date();
+	s +=d.getFullYear() +"/";
+	s +=(d.getMonth()+1)+"/";//getmonth是从0开始计数
+	s +=d.getDate()+",";
+	day=d.getDay();
+	w +=x[day];
+	s +=w;
+	t+=d.getHours() +":";
+	t+=d.getMinutes()+":";
+	t+=d.getSeconds()+".";
+	s+=t;
+	return (s);
+}
+confirm(DateDemo());
+</script>
+</head>
+
+<body>
+</body>
+</html>

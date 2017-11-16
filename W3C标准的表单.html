@@ -1,0 +1,187 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>无标题文档</title>
+</head>
+<style>
+body{
+	padding:0;
+	margin:20px;
+	color:#333;
+	background:#fff;
+	font:12px Arial, Helvetica, sans-serif;
+	text-align:center
+}
+#container{
+	margin:0 auto;
+	padding:1em;
+	width:350px;
+	text-align:left;
+}
+p#fm-intro{
+	margin:0;
+}
+form{
+	margin:0;
+	padding:0;
+}
+fieldset{
+	margin:1em 0;
+	border:none;
+	border-top:1px solid #ccc;
+}
+legend{
+	margin:1em 0;
+	padding:0 0.5em;
+	color:#036;
+	background-color:transparent;
+	font-size:1.3em;
+	font-weight: bold;
+}
+label{
+	float:left;
+	width:100px;
+	padding: 0 1em;
+	text-align:right;
+}
+fieldset div {
+	margin-bottom: .5em;
+	padding:0;
+	display:block;
+}
+fieldset div input.fieldset div textarea{
+	width:150px;
+	border-top:1px solid #555;
+	border-left:1px solid #555;
+	border-bottom:1px solid #555;
+	border-right:1px solid #555;
+	padding:1px;
+	color:#333;
+}
+
+fieldset div select{
+	padding:1px;
+}
+div.fm-multi div{
+	margin:5px 0;
+}
+div.fm-multi input{
+	width:1em;
+}
+div.fm-multi label{
+	display:block;
+	width:80%;
+	padding-left:5em;
+	text-align:center;
+}
+#fm-submit{
+	clear:both;
+	padding-top:1em;
+	text-align:center;
+}
+#fm-submit input{
+	border:1px solid #333;
+	padding:2px 1em;
+	background:#555;
+	color:#fff;
+}
+input:focus, textarea:focus{
+	background:#CCC;
+	color:#000;
+}
+fieldset div.fm-req{
+	font-weight:800;
+}
+</style>
+<body>
+<h3>Standard Form Layout</h3>
+<div id="container">
+  <p id="fm-intro">Fields in <strong>bold</strong> are required.</p>
+  <form id="fm-form" method="post" action="#">
+  </form>
+</div>
+<fieldset>
+  <legend> Personal information</legend>
+  <div class="fm-req">
+    <label for="fm-firstname">First name:</label>
+    <input name="fm-firstname" id="fm-firstname" type="text"/>
+  </div>
+  <div class="fm-opt">
+    <label for="fm-middlename">Middle name:</label>
+    <input name="fm-middlename" id="fm-middlename" type="text"/>
+  </div>
+  <div class="fm-req">
+    <label for="fm-lastname">Last name:</label>
+    <input name="fm-lastname" id="fm-lastname" type="text"/>
+  </div>
+</fieldset>
+<fieldset>
+  <legend>Address </legend>
+  <div class="fm-opt">
+    <label for="fm-addr">Address:</label>
+    <input id="fm-addr" name="fm-addr" type="text" />
+  </div>
+  <div class="fm-opt">
+    <label for="fm-city">City or Town:</label>
+    <input id="fm-city" name="fm-city" type="text" />
+  </div>
+  <div class="fm-opt">
+    <label for="fm-state">State:</label>
+    <select id="fm-state" name="fm-state">
+    <option value="" selected="selected">Choose a State</option> 
+    <option value="UNK">Outside US / Canada</option>
+    <option value="AL">Alabama</option>
+    </select>
+  </div>
+  <div class="fm-req">
+  <label for="fm-zipcode">Zip code:</label>
+  <input id="fm-zipcode" name="fm-zipcode" type="text" />
+  </div>
+</fieldset>
+
+<fieldset>
+  <legend>Contact information</legend>
+  <div class="fm-req">
+    <label for="fm-telephone">Telephone:</label>
+    <input id="fm-telephone" name="fm-telephone" type="text" title="Enter Phone Number xxx-xxxx-xxx format" />
+  </div>
+  <div class="fm-opt">
+    <label for="fm-fax">Fax:</label>
+    <input id="fm-fax" name="fm-fax" type="text" title="Enter Fax Number xxx-xxxx-xxx format" />
+  </div>
+  <div class="fm-opt">
+    <label for="fm-mobile">Mobile:</label>
+    <input id="fm-mobile" name="fm-mobile" type="text" />
+  </div>
+  <div class="fm-req">
+  <label for="fm-email">Email:</label>
+  <input id="fm-email" name="fm-email" type="text" tabindex="" />
+  </div>
+  <div class="fm-opt">
+  <label for="fm-url">Web site address:</label>
+  <input id="fm-url" name="fm-url" type="text" />
+  </div>
+  <div class="fm-opt">
+  <label for="fm-comments">Comments:</label>
+  <textarea name="fm-comments" cols="10" rows="5" id="fm-comments"></textarea>
+  </div>
+  <div class="fm-multi">
+    <div class="fm-opt">
+      <p>Would you like to be notified of future updates?</p>
+      <label for="fm-newsopt-yes">
+     &nbsp; <input  name="fm-newspot" type="radio" id="fm-newspot-yes" value="yes" checked="checked" /><!--不知道为啥yes和no并不对称，所以在前面添加了一个空格-->
+       Yes</label>
+      <label for="fm-newspot-no">
+      <input id="fm-newspot-no" name="fm-newspot" type="radio" value="no" />
+      No</label>
+    </div>
+  </div>
+</fieldset>
+<div id="fm-submit" class="fm-req">
+  <input name="Submit" value="Submit" type="submit" />
+</div>
+<br />
+<div style="text-align:center;" class="fm-req"><a href="#">Back to {style:phreak;} </a></div>
+</body>
+</html>
