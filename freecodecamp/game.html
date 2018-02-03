@@ -1,0 +1,87 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>game</title>
+<style>
+#s1{
+	background:#F00;
+	width:60px;
+	height:60px;
+	//border-radius:100%;
+	position:absolute;
+}
+body{
+	margin:0;
+}
+</style>
+</head>
+
+<body>
+<div id="s1"></div>
+</body>
+<script>
+
+var widmax=document.body.clientWidth,widmin=0;	
+var heimax=document.documentElement.clientHeight,heimin=0;
+var a1l,alt;
+var def=70;
+function moveaddleft(){
+	a1l=document.getElementById('s1').offsetLeft;
+	document.getElementById('s1').style.left=(a1l+5)+'px';
+	if(a1l<=widmax-def)
+		setTimeout('moveaddleft()',5);
+	else{
+		widmax=widmax-def;
+		setTimeout('moveaddtop()',5);		
+	}
+}
+
+function moveminusleft(){
+	a1l=document.getElementById('s1').offsetLeft;
+	document.getElementById('s1').style.left=(a1l-5)+'px';
+	if(a1l>widmin)
+		setTimeout('moveminusleft()',5);
+	if(a1l<=widmin&&widmin<=widmax){
+		widmin=widmin+def;
+		setTimeout('moveminustop()',5);		
+	}
+	if(widmin>widmax&&document.getElementById('s1').offsetWidth<200){
+		def=def+30;
+		widmax=1000;
+		widmin=0;
+		heimax=640;
+		heimin=0;
+		alert(document.getElementById('s1').offsetWidth);
+		document.getElementById('s1').style.left='10px';
+		document.getElementById('s1').style.top='10px';
+		document.getElementById('s1').style.width=def+'px';
+		document.getElementById('s1').style.height=def+'px';
+		setTimeout('moveaddleft()',5);
+	}
+	if(document.getElementById('s1').offsetWidth>200)
+		alert("end!");
+}
+function moveaddtop(){
+	a1t=document.getElementById('s1').offsetTop;
+	document.getElementById('s1').style.top=(a1t+5)+'px';	
+	if(a1t<heimax-def)
+		setTimeout('moveaddtop()',5);
+	else{
+		heimax=heimax-def;
+		setTimeout('moveminusleft()',5);		
+	}
+}
+function moveminustop(){
+	a1t=document.getElementById('s1').offsetTop;
+	document.getElementById('s1').style.top=(a1t-5)+'px';	
+	if(a1t>heimin)
+		setTimeout('moveminustop()',5);
+	if(a1t<=heimin){
+		heimin=heimin+def;
+		setTimeout('moveaddleft()',5);		
+	}
+}
+moveaddleft();
+</script>
+</html>

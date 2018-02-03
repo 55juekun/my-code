@@ -1,0 +1,367 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet"/>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.5.2/animate.min.css" rel="stylesheet"/>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js">
+</script>
+<title>Simon</title>
+
+</head>
+<style>
+.main{
+	margin:auto;
+	margin-top:100px;
+	width:480px;
+}
+.one{
+	width:240px;
+	height:240px;
+	background:#800000;
+	position:absolute;
+	border-top-left-radius:100%;
+	border:10px solid #666;
+	z-index:0;
+}
+.two{
+	width:240px;
+	height:240px;
+	background:#008000;
+	margin-left:240px;
+	position:absolute;
+	border-top-right-radius:100%;
+	border:10px solid #666;
+	z-index:0;
+}
+.three{
+	width:240px;
+	height:240px;
+	background:#000080;
+	position:absolute;
+	margin-top:240px;
+	border-bottom-left-radius:100%;
+	border:10px solid #666;
+	z-index:0;
+}
+.four{
+	width:240px;
+	height:240px;
+	background:#808000;
+	position:absolute;
+	margin-top:240px;
+	margin-left:240px;
+	border-bottom-right-radius:100%;
+	border:10px solid #666;
+	z-index:0;
+}
+.min{
+	width:280px;
+	height:280px;
+	background:#CCC;
+	border-radius:100%;
+	border:#666 10px solid;
+	margin-top:100px;
+	margin-left:100px;
+	position:absolute;
+	z-index:1;
+	text-align:center;
+	font-size:50px;
+	font-style:italic;
+	font-weight:bolder;
+	font-family:Georgia, "Times New Roman", Times, serif;
+	padding-top:30px;
+}
+.countGroup{
+	width:80px;
+	margin-left:30px;
+	position:absolute;
+	font-style:normal;
+}
+.count{
+	width:80px;
+	height:50px;
+	background:#666;
+	border:#333 solid 4px;
+	border-radius:10%;
+	font-family:Arial, Helvetica, sans-serif;
+	font-size:30px;
+	font-style:normal;
+	color:#333;
+}
+.text{
+	font-family:Arial, Helvetica, sans-serif;
+	font-size:10px;
+	font-style:normal;
+}
+.startGroup{
+	width:30px;
+	margin-left:120px;
+	margin-top:10px;
+	position:absolute;
+}
+.start{
+	width:30px;
+	height:30px;
+	background:#F06;
+	border-radius:100%;
+	border:#333 solid 4px;
+	position:absolute;
+}
+.startText{
+	margin-top:40px;
+	margin-left:10px;
+}
+.strictGroup{
+	width:30px;
+	margin-left:180px;
+	margin-top:10px;
+	position:absolute;
+}
+.strict{
+	width:30px;
+	height:30px;
+	background:#FC0;
+	border-radius:100%;
+	border:#333 solid 4px;
+	position:absolute;
+}
+.strictText{
+	margin-top:40px;
+	margin-left:10px;
+}
+.strictLight{
+	width:12px;
+	height:12px;
+	background:#800;
+	border-radius:100%;
+	border:#333 solid 3px;
+	position:absolute;
+	margin-left:25px;
+	margin-top:-15px;
+}
+.clickGroup{
+	margin-left:70px;
+	margin-top:80px;
+	position:absolute;
+}
+.click{
+	margin-left:30px;
+	width:60px;
+	height:30px;
+	background:#333;
+	position:absolute;
+}
+.off{
+	margin-top:8px;
+	position:absolute;
+}
+.on{
+	margin-left:95px;
+	margin-top:8px;
+	position:absolute;
+}
+.move{
+	width:26px;
+	height:22px;
+	background:#FF0;
+	margin-left:-10px;
+	margin-top:-3px;
+	border-radius:10%;
+}
+</style>
+<body>
+<div class="main">
+ <div class="min">Simon
+  <div class="countGroup">
+   <div class="count">- -</div>
+   <div class="text">COUNT</div>
+  </div>
+  <div class="startGroup">
+   <div class="start btn"></div>
+   <div class="startText text">START</div>
+  </div>
+  <div class="strictGroup">
+   <div class="strictLight"></div>
+   <div class="strict btn"></div>
+   <div class="strictText text">STRICT</div>
+  </div>
+  <div class="clickGroup">
+   <div class="off text">OFF</div>
+   <div class="btn click">
+    <div class="move"></div>
+   </div>
+   <div class="on text">ON</div>
+  </div>
+ </div>
+ <div class="one btn" onclick="player(1)"></div>
+ <div class="two btn" onclick="player(2)"></div>
+ <div class="three btn" onclick="player(3)"></div>
+ <div class="four btn" onclick="player(4)"></div>
+</div>
+</body>
+<script>
+var clickFlag=0;
+var light=0;
+$('.click').click(function(){
+	if(clickFlag===0){
+		$('.move').animate({marginLeft:'17px'},150);
+		$('.count').css({color:" #F23"});
+		$('.count').html('- -');
+		theCount=0;
+		theRandom=init();
+		clickFlag=1;
+		return ;
+	}
+	if(clickFlag===1){
+		$('.move').animate({marginLeft:'-10px'},150);
+		$('.count').css({color:"#333"});
+		$('.count').html('- -');
+		clickFlag=0;
+		theRandom=[];
+		$('.strictLight').css({background:"#800"});
+		light=0;
+		return ;
+	}
+});
+$('.start').click(function(){
+	if(clickFlag===1){
+		$('.strictLight').css({background:"#800"});
+		light=0;
+		interTime=1000;
+		theCount=0;
+		theRandom=init();
+		gameInit();
+	}
+});
+$('.strict').click(function(){
+	if(clickFlag===1){
+		if(light===0){
+			$('.strictLight').css({background:" #f00"});
+			light=1;
+			interTime=500;
+			theCount=0;
+			theRandom=init();
+			gameInit();
+			return ;
+		}
+		if(light===1){
+			$('.strictLight').css({background:"#800"});
+			light=0;
+			interTime=1000;
+			theCount=0;
+			theRandom=init();
+			gameInit();
+			return ;
+		}
+	}
+});
+function init(){
+	var arrAll=[];
+	for(i=0;i<20;i++){
+		arrAll.push([]);
+		x=Math.floor(Math.random()*4)+1;
+		for(j=0;j<arrAll.length;j++){
+			arrAll[j].push(x);
+		}
+	}
+	for(i=0;i<arrAll.length;i++)
+		arrAll[i].reverse();
+	arrAll.reverse();
+	return arrAll;
+}
+var btnFlag=0;
+function musicAndLight(num){
+	switch (num){
+		case 1:
+			$('.one').css({background:"#f00"});
+			setTimeout('$(".one").css({background:"#800000"});',interTime);				 			var audio = new Audio("https://www.freecodecamp.cn/images/simonSound1.mp3");
+			audio.play();
+			break;		
+		case 2:
+			$('.two').css({background:"#0f0"});
+			setTimeout('$(".two").css({background:"#008000"});',interTime);
+			var audio = new Audio("https://www.freecodecamp.cn/images/simonSound2.mp3");
+			audio.play();
+			break;		
+		case 3:
+			$('.three').css({background:"#00f"});
+			setTimeout('$(".three").css({background:"#000080"});',interTime);
+			var audio = new Audio("https://www.freecodecamp.cn/images/simonSound3.mp3");
+			audio.play();
+			btnFlag=1;
+			break;
+		case 4:		
+			$('.four').css({background:"#ff0"});
+			setTimeout('$(".four").css({background:"#808000"});',interTime);
+			var audio = new Audio("https://www.freecodecamp.cn/images/simonSound4.mp3");
+			audio.play();
+			btnFlag=1;
+			break;
+	}
+}
+function onByOne(i){
+	arr=theRandom[i];
+	for(j=0;j<arr.length;j++){
+		(function(j){
+			setTimeout(function(){
+				musicAndLight(arr[j]);
+				if(j===arr.length-1){
+					ifbtnClick=1;
+				}
+			},interTime*2*j);
+		})(j);
+	}
+}
+var theRandom;
+var theCount=0;
+var playerArr;
+var ifbtnClick;
+var clear1,clear2;
+var interTime;
+function gameInit(){
+	playerArr=[];
+	ifbtnClick=0;
+	gameStart();
+}
+function gameStart(){
+	n=theCount+1
+	if(n<10){
+		$('.count').html('0'+n);
+	}
+	if(n>=10){
+		$('.count').html(n);
+	}
+	if(n===21){
+		alert('您太棒了，点击确定重新开始游戏！');
+	window.location.href=window.location.href; 
+	window.location.reload; 
+	}
+	clearTimeout(clear1);
+	clearTimeout(clear2);
+	onByOne(theCount);
+}
+function player(num){
+	if(clickFlag===1&&ifbtnClick===1){
+		musicAndLight(num);
+		playerArr.push(num);
+		if(playerArr.length===theCount+1){
+			isRight();
+		}
+	}
+}
+function isRight(){
+	for(i=0;i<playerArr.length;i++){
+		if(playerArr[i]!==theRandom[theCount][i]){
+			$('.count').html('XXX');
+			clear1=setTimeout('gameInit();',2000);
+			return false;
+		}
+	}
+	playerArr=[];
+	theCount+=1;
+	ifbtnClick=0;
+	clear2=setTimeout('gameStart();',interTime*2);
+}
+</script>
+</html>
