@@ -1,0 +1,50 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>无标题文档</title>
+<style type="text/css">
+	body{
+		margin:0;
+	}
+	canvas{
+		background:black;		
+	}
+	
+</style>
+
+</head>
+
+<body>
+</body>
+	<canvas id="canvas" width="500" height="500" >
+    您的浏览器不支持canvas标签，请您更换
+    </canvas>
+<script type="text/javascript">
+	var can=document.getElementById("canvas");
+	var ctx=can.getContext("2d");
+	var s= window.screen;
+	var w= can.width=s.width;
+	var h= can.height=s.height;
+	
+	
+	var words = Array(256).join('1').split("");
+	
+	function draw(){
+		ctx.fillStyle="rgba(0,0,0,0.08)";
+		ctx.fillRect(0,0,w,h);
+		var text = String.fromCharCode(33+Math.floor((Math.random()*90)));
+		ctx.fillStyle="#0f0";
+		words.map(function(y,index){		
+		var x = index*10;
+		console.log(y);
+		ctx.fillText(text,x,y);//绘制文本
+		words[index] = (y > h-170 + Math.random()*352) ? 0 : y +10;
+		
+		})		
+	}
+	draw();
+	setInterval(draw,100);
+	
+</script>
+</html>
