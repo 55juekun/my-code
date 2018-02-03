@@ -1,0 +1,193 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>番茄钟</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js">
+</script>
+
+</head>
+<style>
+.main{
+	width:300px;
+	margin:auto;
+	margin-top:100px;
+}
+.clock{
+	width:300px;
+	height:300px;
+	float:left;
+}
+.time{
+	width:5px;
+	height:150px;
+	background:#FF0;
+	margin-left:150px;
+	position:absolute;
+	float:left;
+	transform:rotate(0deg);
+	transform-origin:bottom;
+}
+.btn{
+	width:120px;
+	height:40px;
+	margin-left:80px;
+	font-size:20px;
+}
+#inputTime{
+	font-size:20px;
+	margin-left:20px;
+}
+.show1{
+	width:370px;
+	margin:auto;
+}
+.show2{
+	width:160px;
+	margin:auto;
+	margin-top:10px;
+}
+.good{
+	background:#666;
+	width:65px;
+	height:65px;
+	margin-right:5px;
+}
+</style>
+
+<body>番茄钟，是指把任务分解成半小时左右，集中精力工作25分钟后休息5分钟，如此视作种一个"番茄"。哪怕工作没有完成，也要定时休息，然后再进入下一个番茄时间。收获4个"番茄"后，能休息15至30分钟。
+<div class="main">
+    <div class="time" id="time"></div>
+	<img class="clock" src="http://a4.qpic.cn/psb?/d2a6738b-ecc9-47ec-a261-d83d5bbb53f0/98OsKS9cPhfxDCHTiCO1JC*V1mNCbQkLQhN2EMW4Vvo!/b/dFsBAAAAAAAA&ek=1&kp=1&pt=0&bo=gAKAAgAAAAADFzI!&vuin=1061229681&tm=1517281200&sce=60-2-2&rf=viewer_4" />
+<input type="text" id="inputTime" placeholder="自定义番茄钟的工作时间" />
+<button class="btn" id="butt">开始计时</button>
+<div class="show1">本次已经工作0分0秒，还有0分0秒可以休息</div>
+<div class="show2">累计已工作0分0秒</div>
+<img class="good" id="potato1" />
+<img class="good" id="potato2" />
+<img class="good" id="potato3" />
+<img class="good" id="potato4" />
+</div>
+</body>
+<script>
+var second=0;
+var minute=0;
+var remainSecond=60;
+var remainMinute=24;
+var setRemainMinute=24;
+var angle=0;
+var allMinute=0;
+var potatoNo=0;
+var buttonText='';
+var allSecond=1500;
+var clockInter=60;
+var clockNowRemain=1500;
+$(document).ready(function(){
+	$("input").focus(function(){
+		$("button").html("设置工作时间并开始");
+		$("button").css({width:"200px",marginLeft:'40px'});
+		})
+	$("button").click(function(){
+		buttonText=$("button").html();
+		if(buttonText==='开始计时'){
+			$("button").html("暂&nbsp;&nbsp;&nbsp;&nbsp;停");
+			timeBegin();
+			$("input").css({display:'none'});
+		}
+		if(buttonText==='设置工作时间并开始'){
+			x=document.getElementById("inputTime").value;
+			setRemainMinute=parseInt(x)-1;
+			allSecond=parseInt(x)*60;
+			clockInter=parseInt(x)*2.4;
+			clockNowRemain=allSecond-clockInter;
+			$("button").html("暂&nbsp;&nbsp;&nbsp;&nbsp;停");
+			$("button").css({width:"120px",marginLeft:'80px'});
+			timeBegin();
+			$("input").css({display:'none'});
+		}
+		if(buttonText==='暂&nbsp;&nbsp;&nbsp;&nbsp;停'){
+			alert("暂停一会儿");
+		}
+	});
+})
+function timeBegin(){//时间自加初始化
+	remainMinute=setRemainMinute;
+	remainSecond=60;
+	second=0;
+	minute=0;
+	angle=0;
+	timePlus();
+}
+function timePlus(){//时间自加
+ second=second+1;
+ remainSecond-=1;
+ allSecond-=1;
+ if(second===60||remainSecond===0){//一分钟
+	 minute+=1;
+	 allMinute+=1;
+	 remainMinute-=1;
+	 second=0;
+	 remainSecond=60;
+ }
+ if(allSecond<clockNowRemain){
+	clockNowRemain-=clockInter;
+	angle+=12;
+ 	document.getElementById('time').style.transform = 'rotate('+angle+'deg)';
+ }
+ if(remainMinute<0){//25分钟 是否休息
+	 potatoNo+=1;
+	 getPotato();
+	 con=confirm("现在就休息吗？");
+	 if(con){
+		 relaxInit();
+		 return ;
+	 }
+	 else{
+		 timeBegin();
+		 return ;
+	 }
+ }
+ if(allMinute>=100){//100分钟多休息会
+	alert("多休息一会儿吧！");
+	conf=confirm("重新开始？");
+	if(conf){
+		window.location.href=window.location.href; 
+		window.location.reload; 
+	}
+	return ;
+ }
+ t=setTimeout("timePlus()",1000);
+ $(".show1").html("本次已经工作"+minute+'分'+second+"秒，还有"+remainMinute+'分'+remainSecond+'秒可以休息！');
+ $(".show2").html("累计已经工作"+allMinute+'分'+second+"秒");
+}
+function relaxInit(){//休息初始化
+	second=0;
+	minute=0;
+	remainSecond=60;
+	remainMinute=4;
+	relax();
+}
+function relax(){//休息计时
+	second+=1;
+	remainSecond-=1;
+	if(second===60||remainSecond===0){
+		second=0;
+		remainSecond=60;
+		minute+=1;
+		remainMinute-=1;
+	 	angle+=12;
+		document.getElementById('time').style.transform = 'rotate('+angle+'deg)';
+	} 
+	if(remainMinute<0){
+		alert("工作，工作，工作！");
+		timeBegin();
+		return ;
+	}
+	x=setTimeout("relax()",1000);
+	$(".show1").html("本次已经休息"+minute+'分'+second+"秒，还有"+remainMinute+'分'+remainSecond+'秒就要工作啦！');
+}
+function getPotato(){//25分钟后得到一个番茄
+	document.getElementById('potato'+potatoNo).src='https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1517290871214&di=13a30761de850e0cb8a0ceec2d5971fb&imgtype=0&src=http%3A%2F%2Fpic.58pic.com%2F58pic%2F15%2F37%2F06%2F39k58PIC2Dd_1024.jpg';
+}
+</script>
+</html>

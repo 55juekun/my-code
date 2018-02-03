@@ -1,0 +1,156 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.5.2/animate.min.css" rel="stylesheet"/>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet"/>
+<script src="http://cdn.static.runoob.com/libs/jquery/1.10.2/jquery.min.js"></script>
+<title>TwitchTV</title>
+</head>
+<style>
+.main{
+	width:60%;
+	margin-left:20%;
+	margin-top:5% !important;
+}
+.main_text{
+	background:#999;
+	height:80px;
+	text-align:center;
+	padding-left:120px;
+	display:block;
+}
+.threeicon{
+	background:#999;
+	height:80px;
+	text-align:center;
+}
+.up{
+	padding-top:10px;
+	height:60px;
+	background:#999;
+	text-align:center;
+	margin-bottom:3px;
+	font-size:24px;
+}
+.circle{
+	width:10px;
+	height:10px;
+	border-radius:100%;
+	display:block;
+	float:left;
+	margin-top:5px;
+	margin-left:10px;
+}
+.icon{
+	width:30px;
+	height:22px;
+	background:#FFF;
+	margin-right:-20px;	
+	margin-left:120px;	
+	margin-top:2px;
+	float:right;
+}
+.icon0{
+	width:80px;
+}
+p{
+	margin:0;
+}
+.col-xs-2 img{
+	width:50px;
+	height:50px;
+	border:2px #FFF solid;
+	border-radius:100%;
+	margin-top:-5px;
+}
+</style>
+<body>
+<div class="main">
+<div class="main_text col-xs-9"><h1>TWITCH知名主播</h1></div>
+<div class="threeicon col-xs-3">
+	<div class="icon icon0"><div class="circle" style="background:#ff0"></div><p>所有人</p></div>
+	<div class="icon icon1"><div class="circle" style="background:#0f0"></div><p></p></div>
+	<div class="icon icon2"><div class="circle" style="background:#666"></div><p></p></div>
+</div>
+<div class="up col-xs-12"><div class="col-xs-2"><img src="" /></div><div class="col-xs-3"><a href="" target="_blank">a</a></div><div class="col-xs-7"> </div></div>
+<div class="up col-xs-12"><div class="col-xs-2"><img src="" /></div><div class="col-xs-3"><a href="" target="_blank">a</a></div><div class="col-xs-7"> </div></div>
+<div class="up col-xs-12"><div class="col-xs-2"><img src="" /></div><div class="col-xs-3"><a href="" target="_blank">a</a></div><div class="col-xs-7"> </div></div>
+<div class="up col-xs-12"><div class="col-xs-2"><img src="" /></div><div class="col-xs-3"><a href="" target="_blank">a</a></div><div class="col-xs-7"> </div></div>
+<div class="up col-xs-12"><div class="col-xs-2"><img src="" /></div><div class="col-xs-3"><a href="" target="_blank">a</a></div><div class="col-xs-7"> </div></div>
+<div class="up col-xs-12"><div class="col-xs-2"><img src="" /></div><div class="col-xs-3"><a href="" target="_blank">a</a></div><div class="col-xs-7"> </div></div>
+<div class="up col-xs-12"><div class="col-xs-2"><img src="" /></div><div class="col-xs-3"><a href="" target="_blank">a</a></div><div class="col-xs-7"> </div></div>
+<div class="up col-xs-12"><div class="col-xs-2"><img src="" /></div><div class="col-xs-3"><a href="#" target="_blank">a</a></div><div class="col-xs-7"> </div></div>
+<div class="up col-xs-12"><div class="col-xs-2"><img src="" /></div><div class="col-xs-3"><a href="#" target="_blank">a</a></div><div class="col-xs-7"> </div></div>
+</div>
+<script>
+$(document).ready(function(){//弹出所有人、离线、在线窗口
+	$(".icon0").click(function(){
+		$(".icon0").animate({width:"80px"});	
+		$(".icon1").animate({width:"30px"});		
+		$(".icon2").animate({width:"30px"});
+		$(".icon0 p").text("所有人");
+		$(".icon1 p").text("");	
+		$(".icon2 p").text("");	
+		for(var i=0;i<isOnline.length;i++){
+			$(".up").eq(i).removeClass("hidden");
+		}		
+	})
+	$(".icon1").click(function(){
+		$(".icon1").animate({width:"80px"});		
+		$(".icon0").animate({width:"30px"});		
+		$(".icon2").animate({width:"30px"});
+		$(".icon0 p").text("");
+		$(".icon1 p").text("在线");	
+		$(".icon2 p").text("");	
+		for(var i=0;i<isOnline.length;i++){
+			if(isOnline[i]===0)
+				$(".up").eq(i).addClass("hidden");
+			if(isOnline[i]===1)
+				$(".up").eq(i).removeClass("hidden");
+		}
+		})
+	$(".icon2").click(function(){
+		$(".icon2").animate({width:"80px"});		
+		$(".icon0").animate({width:"30px"});		
+		$(".icon1").animate({width:"30px"});
+		$(".icon0 p").text("");
+		$(".icon1 p").text("");	
+		$(".icon2 p").text("离线");	
+		for(var i=0;i<isOnline.length;i++){
+			if(isOnline[i]===1)
+				$(".up").eq(i).addClass("hidden");
+			if(isOnline[i]===0)
+				$(".up").eq(i).removeClass("hidden");
+		}
+	})
+});
+name=["freecodecamp","storbeck","terakilobyte","habathcx","RobotCaleb","thomasballinger","noobs2ninjas","beohoff",'kyo1984123'];
+var name1=new Array();
+ name1=name.split(",")
+var id=name1.length;
+var isOnline=new Array();
+$(name1).each(function(index,el){
+	var href='https://www.twitch.tv/'+name1[index];
+	$(".up .col-xs-3 a").eq(index).html(name1[index]);
+	$(".up .col-xs-3").eq(index).find('a').text(name1[index]).attr({'href': href})
+	$.getJSON('https://wind-bow.glitch.me/twitch-api/channels/'+name1[index]+'?callback=?',function(get){
+		var imgUrl=get.logo;
+		$(".up .col-xs-2").eq(index).find('img').attr({'src': imgUrl});
+	})
+	$.getJSON('https://wind-bow.glitch.me/twitch-api/streams/'+name1[index]+'?callback=?',function(get){
+		if(get.stream===null){
+			$(".up .col-xs-7").eq(index).html('当前该主播不在线哦！');
+			isOnline[index]=0;
+		}
+		else{
+			var game=get.stream.channel.game+' '+get.stream.channel.status;
+			$(".up .col-xs-7").eq(index).html(game);
+			$(".up .col-xs-7").eq(index).css('fontSize',"15px")
+			isOnline[index]=1;
+		}
+	})
+})
+</script>
+</body>
+</html>

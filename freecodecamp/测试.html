@@ -1,0 +1,177 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.5.2/animate.min.css" rel="stylesheet"/>
+<meta http-equiv="Access-Control-Allow-Origin" content="*">
+<link href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.0.0-beta.2/css/bootstrap-grid.css" rel="stylesheet"/>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet"/>
+<script src="http://cdn.static.runoob.com/libs/jquery/1.10.2/jquery.min.js">
+</script>
+<title>无标题文档</title>
+</head>
+<style>
+.main{
+	width:80%;
+	margin:10%;
+	background:#999;
+}
+button{
+	color:#C6F;
+	font-family:"Arial Black", Gadget, sans-serif;
+	height:50px;
+	margin:10% 40% 10% 40%;
+	border:none;
+	font-size:30px;
+	display:table;
+} 
+h2{
+	margin:0;
+}
+.img{
+	margin-top:5%;
+	margin-left:45%;
+}
+.glyphicon{
+	font-size:100px;
+	float:left;
+}
+.input-group{
+	top:20px;
+	height:60px;
+	width:400px;
+	opacity:0;
+	font-size:30px;
+}
+.text{
+	display:none;
+}
+</style>
+<body>
+<div class="main">
+<button class="btn"><h2>随便逛逛WIKI</h2></button>
+<div class="img"><span class="glyphicon glyphicon-search clickable"></span>
+    <input class="input-group" placeholder="按下Enter直接在WIKI上搜索"/>
+</div>
+<div><h1>&nbsp;</h1></div>
+<div class="text">
+<ol>
+    <li>
+        <h3><a href="" target="_blank">请等一等。。。</a></h3>
+        <p><img src=""></p>
+        
+    </li>
+    <li>
+        <h3><a href="" target="_blank">请等一等。。。</a></h3>
+        <p><img src=""></p>
+        
+    </li>
+    <li>
+        <h3><a href="" target="_blank">请等一等。。。</a></h3>
+        <p><img src=""></p>
+        
+    </li>
+    <li>
+        <h3><a href="" target="_blank">请等一等。。。</a></h3>
+        <p><img src=""></p>
+        
+    </li>
+    <li>
+        <h3><a href="" target="_blank">请等一等。。。</a></h3>
+        <p><img src=""></p>
+        
+    </li>
+    <li>
+        <h3><a href="" target="_blank">请等一等。。。</a></h3>
+        <p><img src=""></p>
+        
+    </li>
+    <li>
+        <h3><a href="" target="_blank">请等一等。。。</a></h3>
+        <p><img src=""></p>
+        
+    </li>
+    <li>
+        <h3><a href="" target="_blank">请等一等。。。</a></h3>
+        <p><img src=""></p>
+        
+    </li>
+    <li>
+        <h3><a href="" target="_blank">请等一等。。。</a></h3>
+        <p><img src=""></p>
+        
+    </li>
+    <li>
+        <h3><a href="" target="_blank">请等一等。。。</a></h3>
+        <p><img src=""></p>
+        
+    </li>
+</ol></div>
+</div>
+</body>
+<!部分代码源自 https://www.cnblogs.com/zczhangcui/p/6251604.html -->
+<script>
+$(document).ready(function(){
+	$("button").click(function(){
+		window.open("http://zh.wikipedia.org/wiki/Special:Random");
+	});
+	$(".img").click(function(){
+		$(this).animate({marginLeft:"23%"},800);
+		setTimeout(function(){
+		$(".input-group").animate({opacity:"1"},800);
+		},800);
+	});
+});
+var key="";
+$(".input-group").keydown(function(event){
+	key=$(".input-group").val();
+	if(event.keyCode==13)
+		if(key!==''){
+			keySearch();
+			$(".text").css({display:"block"});
+		}
+		if(key==='')
+			$(this).attr({placeholder:"请输入关键字！"})
+});
+var url='https://en.wikipedia.org/w/api.php';
+function keySearch(){
+		$.ajax( {
+		headers: { 'Api-User-Agent': 'Mozilla/5.0'},
+		url:url,
+		action:'query',
+		list:'search',
+		srwhat:'title',
+    	dataType: 'jsonp',
+   		type: 'POST',
+		srsearch:key,
+    success: function(response) {
+      var x=[];
+      for (var pageid in response.query.pages) {
+         x.push(pageid);
+      }
+	  
+	 // 膜拜大神
+	 $(x).each(function(index, el) {
+		var page=response.query.pages[x[index]];
+		var title=page.title;
+		var extract=page.extract;
+		var imgsrc="";
+		try{
+			imgsrc=page.thumbnail.source;
+		}catch(e){}
+		var listcontent="";
+		if(imgsrc){
+
+			listcontent="<img src='"+imgsrc+"'>";
+		}
+		listcontent+=extract;
+		var href="http://zh.wikipedia.org/wiki/"+title;
+		var list=$(".text ol li").eq(index);//.eq()查找对应条目
+		list.find('a').text(title).attr({'href': href});
+		list.find('p').html(listcontent);
+	});
+}
+});
+}
+</script>
+</html>

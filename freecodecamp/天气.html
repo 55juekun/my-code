@@ -1,0 +1,131 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=gbk" />
+<title>天气</title>
+</head>
+<style>
+.city{
+	margin-left:100px;
+	display:inline-block;
+}
+.date{
+	margin-right:100px;
+	float:right;
+}
+.main{
+	text-align:center;
+	margin:auto;
+	margin-top:80px;
+}
+table{
+	width:600px;
+	border:solid 1px;
+	margin:auto;
+	text-align:center;
+}
+.tit{
+	border-bottom:1px solid;
+}
+</style>
+<body>
+<div class="city"><h2>当前定位城市：</h2></div>
+<div class="date"><h2>当前日期是：</h2></div>
+<div class="main">
+<div class="todayWeather"><h1>今天天气</h1></div>
+<div class="temperature">°C～°C</div>
+<div class="weather">晴转多云</div>
+<div class="humidity">湿度：</div>
+<div class="water">降水概率：</div>
+<div class="air">空气质量：</div>
+<div class="windForce">`风力：</div>
+<div class="windDirection">风向：</div>
+<div class="airPressure">气压：</div>
+</div>
+<table>
+	<tr><th colspan="5" class="tit">接下来5天温度变化预报</th></tr>
+  <tr>
+    <th class="gai" scope="col">1</th>
+    <th class="gai" scope="col">2</th>
+    <th class="gai" scope="col">3</th>
+    <th class="gai" scope="col">4</th>
+    <th class="gai" scope="col">5</th>
+  </tr>
+</table>
+
+</body>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js">
+</script>
+<script src="https://int.dpool.sina.com.cn/iplookup/iplookup.php?format=js"></script>
+<script  src="https://tianqi.2345.com/js/citySelectData2.js" charset="gbk">
+</script>
+<script>
+var a=provqx.join(".")
+var len=a.indexOf(remote_ip_info.city)-8;
+var citycode=a.substr(len,5);
+var url=new Array();
+ url[0]='https://tianqi.2345.com/t/shikuang/'+citycode+'.js';//当天天气
+ url[1]='https://tianqi.2345.com/t/tqChart/'+citycode+'.js';//七天温度预报
+ url[2]='https://tianqi.2345.com/t/wea_hour_js/'+citycode+'.js';//阴晴变化
+var script=new Array();
+var head = document.getElementsByTagName('head')[0];
+for(var i=0;i<3;i++){
+	script[i]= document.createElement('script'); 
+	script[i].type= 'text/javascript'; 
+	script[i].src=url[i];
+	script[i].charset='gbk';
+	head.appendChild(script[i]);
+	script[i].defer===true;
+}
+	
+	var myDate = new Date();
+$(document).ready(function(){
+script[0].onload=function(){
+	$('.city h2').html('当前定位城市：'+remote_ip_info.city);
+	$('.date h2').html('当前日期是：'+myDate.getFullYear()+'年'+myDate.getMonth()+1+'月'+myDate.getDate()+'日');
+	$('.humidity').html('湿度：'+weatherinfovar.weatherinfo.SD);
+	$('.humidity').html('湿度：'+weatherinfovar.weatherinfo.SD);
+	$('.water').html(weatherinfovar.weatherinfo.JS);
+	$('.air').html('空气质量：'+weatherinfovar.weatherinfo.lv_hint);
+	$('.windForce').html('风力：'+weatherinfovar.weatherinfo.WS);
+	$('.windDirection').html('风向：'+weatherinfovar.weatherinfo.WD);
+	$('.airPressure').html('气压：'+weatherinfovar.weatherinfo.QY+'hPa');
+}
+script[1].onload=function(){
+	$('.temperature').html(data[1].wenduH+'°C～'+data[1].wenduB+'°C');
+	$('.gai').each(function(index){//日期计算
+	if(myDate.getMonth()!==1){
+		if((!dateaccount()&&myDate.getDate()+index+1<32)||(dateaccount()&&myDate.getDate()+index+1<31))
+			$('.gai').eq(index).html(myDate.getDate()+index+1+'日'+ '<br />'+data[index+2].wenduH+'°C～'+data[index+2].wenduB+'°C');
+		if(!dateaccount()&&myDate.getDate()+index+1>31)
+			$('.gai').eq(index).html(myDate.getDate()+index+1-31+'日'+ '<br />'+data[index+2].wenduH+'°C～'+data[index+2].wenduB+'°C');
+		if(dateaccount()&&myDate.getDate()+index+1>30)
+			$('.gai').eq(index).html(myDate.getDate()+index+1-30+'日'+ '<br />'+data[index+2].wenduH+'°C～'+data[index+2].wenduB+'°C');
+	}
+	else{
+		if(myDate.getDate()+index+1<29)
+			$('.gai').eq(index).html(myDate.getDate()+index+1+'日'+ '<br />'+data[index+2].wenduH+'°C～'+data[index+2].wenduB+'°C');
+		else
+			$('.gai').eq(index).html(myDate.getDate()+index+1-28+'日'+ '<br />'+data[index+2].wenduH+'°C～'+data[index+2].wenduB+'°C');
+	}
+	})
+}
+script[2].onload=function(){
+	if((wea_h_hour[9].tq)===(wea_h_hour[14].tq))
+		$('.weather').html(wea_h_hour[9].tq);
+	else
+		$('.weather').html(wea_h_hour[9].tq+'转'+wea_h_hour[14].tq);
+	alert(wea_h_hour[9].tq);
+}
+});
+function dateaccount(){//这个月有几天
+	var day31=[0,2,4,6,7,9,11]
+	for(i=0;i<day31.length;i++){
+		if(myDate.getMonth()===day31[i])
+			return false;
+	}
+	return true;
+}
+//console.log(weatherinfovar)
+</script>
+</html>

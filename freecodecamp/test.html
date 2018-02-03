@@ -1,0 +1,53 @@
+<html lang="en">  
+ <head>  
+  <meta charset="UTF-8">  
+  <meta name="Generator" content="EditPlus®">  
+  <meta name="Author" content="natural_live">  
+  <meta name="Keywords" content="barrage">  
+  <meta name="Description" content="">  
+  <title>弹幕</title>  
+  <style>  
+#s1{
+	background:#F00;
+	width:50px;
+	height:50px;
+	//border-radius:100%;
+	position:absolute;
+}
+  </style>  
+ </head>  
+ <body>
+  <div id="s1"></div>
+ </body> 
+ <script>
+
+var widmax=document.body.clientWidth,widmin=0;	
+var heimax=document.documentElement.clientHeight,heimin=0;
+var a1l,alt;
+var def=50;
+function moveaddleft(){
+	document.getElementById('s1').style.width='10px';
+	document.getElementById('s1').height='10px';
+}
+
+moveaddleft();
+function rot13(str) { // LBH QVQ VG!
+  // 请把你的代码写在这里
+  var arr="";
+  for(var i=0;i<str.length;i++){
+    if(/[A-Z]/.exec(str[i]))
+    {
+      var code=str[i].charCodeAt()+13;
+      if(code>90)
+        code-=26;
+     arr=arr.concat(String.fromCharCode(code));
+      console.log(arr);
+    }
+  }
+ // console.log(arr);
+  return str;
+}
+
+rot13("SERR PBQR PNZC");
+</script> 
+</html>  

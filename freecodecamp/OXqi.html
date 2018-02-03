@@ -1,0 +1,146 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>OX棋</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js">
+</script>
+</head>
+<style>
+.main{
+	width:480px;
+	margin:auto;
+	margin-top:50px;
+}
+.block{
+	width:150px;
+	height:150px;
+	margin-bottom:3px;
+	background:#000;
+	display:inline-block;
+	color:#F00;
+	font-size:120px;
+	text-align:center;
+	vertical-align:top;
+}
+.choose{
+	width:160px;
+	margin:auto;
+}
+.btn{
+	width:200px;
+	height:40px;
+	font-size:24px;
+	margin-left:140px;
+	margin-bottom:10px;
+}
+</style>
+<body>
+<div class="main">
+<button class="btn" onclick="Start()">重新开始</button>
+ <div class="block" id="bl1" onclick="check('bl1',1)"></div>
+ <div class="block" id="bl2" onclick="check('bl2',2)"></div>
+ <div class="block" id="bl3" onclick="check('bl3',3)"></div>
+ <div class="block" id="bl4" onclick="check('bl4',4)"></div>
+ <div class="block" id="bl5" onclick="check('bl5',5)"></div>
+ <div class="block" id="bl6" onclick="check('bl6',6)"></div>
+ <div class="block" id="bl7" onclick="check('bl7',7)"></div>
+ <div class="block" id="bl8" onclick="check('bl8',8)"></div>
+ <div class="block" id="bl9" onclick="check('bl9',9)"></div>
+</div>
+<div class="choose">
+ <input type="radio" name="radio"  checked="checked" onclick="Start()" value="X"/>我先手
+ <input type="radio" name="radio" onclick="robotFirst()" value="O"/>机器先手
+</div>
+</body>
+<script>
+var blockID=[1,2,3,4,5,6,7,8,9];
+function radomChoose(){
+	var choosed=0;var theReturn=0;
+	if(blockID.length>0){
+		choosed=Math.floor(Math.random()*blockID.length);
+		theReturn=blockID[choosed];
+		blockID.splice(choosed,1);
+		return theReturn;
+	}
+}
+function robotFirst(){
+	$('.block').each(function(i,el){
+		$('.block').eq(i).html('');
+	})
+	document.getElementById('bl'+radomChoose()).innerHTML='O';
+}
+//while(blockID.length>0&&)
+function check(str,num){
+	var content=document.getElementById(str).innerHTML;
+	if(content!=='O'&&content!=='X'){
+		document.getElementById(str).innerHTML='X';
+		var x=blockID.indexOf(num);
+		blockID.splice(x,1);
+		document.getElementById('bl'+radomChoose()).innerHTML='O';
+	}
+}
+var ifX=[];
+var ifO=[];
+var flag=1;
+$('.block').click(function(){
+	$('.block').each(function(i,el){
+		if($('.block').eq(i).html()==='X'){
+			ifX.push(String(i+1));
+			if(ifX.length>=3){
+				//alert(ifX)
+				if(arrFind(ifX)&&flag===1){
+					alert('你赢了！');
+					flag=0;
+				}
+			}
+		}
+		if($('.block').eq(i).text()==='O'){
+			ifO.push(String(i+1));
+			if(ifO.length>=3){
+				if(arrFind(ifO)&&flag===1){
+					alert('你输了!');
+					flag=0;
+				}
+			}
+		}
+	})
+	ifX=[];
+	ifO=[];
+})
+function reStart(){
+	con=confirm("是否重新开始？")
+	if(con){
+		Start()
+	}
+}
+function Start(){
+	window.location.href=window.location.href; 
+	window.location.reload; 
+}
+function arrFind(arr){
+	arr.sort();
+	var theRight=['123','456','789','159','357','147','258','369'];
+	var theNowArr=[];
+	for(i=0;i<arr.length-2;i++){
+		x=arr[i];
+		for(j=i+1;j<arr.length-1;j++){
+			y=arr[j];
+			for(k=j+1;k<arr.length;k++){
+				z=arr[k];
+				theNowArr.push(x+y+z);
+				//alert('x='+x+';y='+y+';z='+z)
+			}
+		}
+	}
+	for(i=0;i<theRight.length;i++){
+		for(j=0;j<theNowArr.length;j++){
+			if(theRight[i]===theNowArr[j]){
+				return true;
+			}
+		}
+	}
+	theNowArr=[];
+}
+</script>
+</html>
