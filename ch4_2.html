@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>ch4_2l.html</title>
+	
+    <meta http-equiv="keywords" content="keyword1,keyword2,keyword3">
+    <meta http-equiv="description" content="this is my page">
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+    
+    <link rel="stylesheet" type="text/css" href="./ch4_2_style.css">
+
+  </head>
+  <body onmousemove="mov()">
+  <center>
+  <div id="loginDiv">
+  <table id="ta">
+  <tr style="height:50">
+  	<td id="t" colspan="2" align="center" onmousedown="changeTrue()" onmouseup="changeFalse()" onmouseover="titleChange()" onmouseout="titleStatic()">欢迎光临
+    </td>
+   </tr>
+   <tr>
+   <!--输入用户名-->
+   		<td align="left" style="white-space:nowrap">用户名：</td>
+        <td align="left"><input type="text" value="" id="userID" />
+        </td>
+   </tr>
+   <tr>
+   <!--输入密码-->
+   		<td align="left" style="white-space:nowrap">密	 码 ：</td>
+        <td align="left"><input type="text" id="userPass" value="" /></td>
+   </tr>
+   <tr>
+   <!--设置登录按钮-->
+   		<td align="right" ><input type="button" id="login" value="登录" onclick="loginOK()" style="font-size:larger" />
+        </td>
+   <!--设置取消按钮-->
+   		<td align="center"><input type="button" id="cancel" value="取消" onclick="loginCancle()" style="font-size:larger" />
+        </td>
+   </tr>
+  </table>
+  </div>
+  </center>
+  </body>
+  <script language="javascript" type="text/javascript">
+  function loginOK(){
+	  var userName=document.getElementById("userID").value.toString();
+	  var userPassword=document.getElementById("userPass").value.toString();
+	  if(userName==""){
+		  alert("请输入用户名!!");
+		  return;
+	  }
+	  if(userPassword==""){
+		  alert("请输入密码！！");
+		  return;
+	  }
+	  if(userName!="admin"){
+		  alert("用户名错误！");
+		  return;
+	  }
+	  if(userPassword=="123456"){
+		  alert("登录成功！");
+		  return;
+	  }
+	  	alert("密码错误！");
+  }
+  function loginCancle(){
+	  document.getElementById("userID").value="";
+	  document.getElementById("userPass").value="";
+  }
+  function titleChange(){
+	  document.getElementById("t").className="cTitle";
+  }
+  function titleStatic(){
+	  document.getElementById("t").className="sTitle";
+  }
+  </script>
+	  
+</html>

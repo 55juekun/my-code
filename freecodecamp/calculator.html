@@ -1,0 +1,340 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>计算器</title>
+</head>
+<script src="http://cdn.static.runoob.com/libs/jquery/1.10.2/jquery.min.js">
+</script>
+<style>
+table{
+	margin:auto;
+	margin-top:100px;
+	font-size:28px;
+}
+th{
+	width:100px;
+}
+#sum{
+	text-align:right;
+	padding-right:10px;
+	border:none;
+}
+#see{
+	text-align:right;
+	padding-right:10px;
+	border:none;
+	border-bottom:solid thin;
+}
+</style>
+<body>
+<table width="400" height="300" border="1">
+	<tr class="sum">
+    	<th colspan="4" id="see">0</th >
+    </tr>
+    <tr class="sum">
+    	<th colspan="4" id="sum">0</th >
+    </tr>
+    <tr>
+        <th id="AC">AC</th>
+        <th id="CE">CE</th >
+        <th id="percent">%</th >
+        <th id="division">/</th >
+    </tr>
+    <tr>
+        <th id="seven">7</th >
+        <th id="eight">8</th >
+        <th id="nine">9</th >
+        <th id="multiply">*</th >
+    </tr>
+    <tr>
+        <th id="four">4</th >
+        <th id="five">5</th >
+        <th id="six">6</th >
+        <th id="minus">-</th >
+    </tr>
+    <tr>
+        <th id="one">1</th >
+        <th id="two">2</th >
+        <th id="three">3</th >
+        <th id="plus">+</th >
+    </tr>
+    <tr>
+        <th id="dot">.</th >
+        <th id="zero">0</th >
+        <th id="equal" colspan="2" >=</th >
+    </tr>
+</table>
+</body>
+<script>
+$(document).ready(function(){
+	//以下为数字被点击
+	$("#one").click(function(){
+		$("#sum").html(getsum()+'1');
+		$("#see").html(getsee()+'1');
+		tooBIG();
+		yesRepeat();
+	});
+	$("#two").click(function(){
+		$("#sum").html(getsum()+'2');
+		$("#see").html(getsee()+'2');
+		tooBIG();
+		yesRepeat();
+	});
+	$("#three").click(function(){
+		$("#sum").html(getsum()+'3');
+		$("#see").html(getsee()+'3');
+		tooBIG();
+		yesRepeat();
+	});
+	$("#four").click(function(){
+		$("#sum").html(getsum()+'4');
+		$("#see").html(getsee()+'4');
+		tooBIG();
+		yesRepeat();
+	});
+	$("#five").click(function(){
+		$("#sum").html(getsum()+'5');
+		$("#see").html(getsee()+'5');
+		tooBIG();
+		yesRepeat();
+	});
+	$("#six").click(function(){
+		$("#sum").html(getsum()+'6');
+		$("#see").html(getsee()+'6');
+		tooBIG();
+		yesRepeat();
+	});
+	$("#seven").click(function(){
+		$("#sum").html(getsum()+'7');
+		$("#see").html(getsee()+'7');
+		tooBIG();
+		yesRepeat();
+	});
+	$("#eight").click(function(){
+		$("#sum").html(getsum()+'8');
+		$("#see").html(getsee()+'8');
+		tooBIG();
+		yesRepeat();
+	});
+	$("#nine").click(function(){
+		$("#sum").html(getsum()+'9');
+		$("#see").html(getsee()+'9');
+		tooBIG();
+		yesRepeat();
+	});
+	$("#zero").click(function(){
+		$("#sum").html(getsum()+'0');
+		$("#see").html(getsee()+'0');
+		tooBIG();
+		yesRepeat();
+	});
+	$("#dot").click(function(){
+		$("#sum").html($("#sum").html()+'.');
+		$("#see").html($("#sum").html()+'.');
+		tooBIG();
+		yesRepeat();
+	});
+	//AC 和 CE被点击
+	$("#AC").click(function(){
+		$("#sum").html('0');
+		$("#see").html('0');
+		yesRepeat();
+		num1=99999;
+		num2=99999;
+		sigalFlag=1;
+	});
+	$("#CE").click(function(){
+		sumSplit=$("#sum").html().split("");
+		sumSplit.pop();
+		nowSum=sumSplit.join("");
+		if(nowSum.length>0)
+			$("#sum").html(nowSum);
+		else
+			$("#sum").html('0');
+		seeL=$("#see").html();
+		$("#see").html(seeL.substring(0,seeL.length-1));
+		yesRepeat();
+	});
+	//五个运算符被点击
+	var justStr='';
+	$("#plus").click(function(){
+		num1=getNum1();
+		num2=getNum2();
+		noRepeat('+');
+		tooBIG();
+		if(num1!==99999&&num2!==99999){
+			num1=count(num1,num2,justStr);
+			num2=99999;
+			$("#sum").html(num1+'+');
+			sigalFlag=0;
+		}
+		justStr='+'
+	});
+	$("#minus").click(function(){
+		num1=getNum1();
+		num2=getNum2();
+		noRepeat('-');
+		tooBIG();
+		if(num1!==99999&&num2!==99999){
+			num1=count(num1,num2,justStr);
+			num2=99999;
+			$("#sum").html(num1+'-');
+			sigalFlag=0;
+		}
+		justStr='-'
+	});
+	$("#multiply").click(function(){
+		num1=getNum1();
+		num2=getNum2();
+		noRepeat('*');
+		tooBIG();
+		if(num1!==99999&&num2!==99999){
+			num1=count(num1,num2,justStr);
+			num2=99999;
+			$("#sum").html(num1+'*');
+			sigalFlag=0;
+		}
+		justStr='*'
+	});
+	$("#division").click(function(){
+		num1=getNum1();
+		num2=getNum2();
+		noRepeat('/');
+		tooBIG();
+		if(num1!==99999&&num2!==99999){
+			num1=count(num1,num2,justStr);
+			num2=99999;
+			$("#sum").html(num1+'/');
+			sigalFlag=0;
+		}
+		justStr='/'
+	});
+	$("#percent").click(function(){
+		num1=getNum1();
+		num2=getNum2();
+		noRepeat('%');
+		tooBIG();
+		if(num1!==99999&&num2!==99999){
+			num1=count(num1,num2,justStr);
+			num2=99999;
+			$("#sum").html(num1+'%');
+			sigalFlag=0;
+		}
+		justStr='%'
+	});
+	//=和Ans被点击
+	var lastEqual;
+	$("#equal").click(function(){
+		num1=getNum1();
+		num2=getNum2();
+		if(num1!==99999&&num2!==99999){
+			num1=count(num1,num2,justStr);
+			num2=99999;
+			$("#sum").html(num1);
+			sigalFlag=1;
+		}
+	});
+})
+var num1=99999; var num2=99999;
+function getsum(){
+	var nowSum=$("#sum").html();
+	if(nowSum==='0')
+		nowSum='';
+	return nowSum;
+}
+function getsee(){
+	var nowSee=$("#see").html();
+	if(nowSee==='0')
+		nowSee='';
+	return nowSee;
+}
+function tooBIG(){
+	sumSplit=$("#see").html().split("");
+	if(sumSplit.length>22){
+		alert("我快爆掉啦！！！");
+		sumSplit.pop();
+		nowSum=sumSplit.join("");
+		$("#see").html(nowSum);
+	}
+}
+function toNum(){
+	nowSum=$("#sum").html();
+	num=Number(nowSum);
+	return num;
+}
+function toEqu(){
+	nowEqu=$("#see").html();
+	num=Number(nowSum);
+	return num;
+}
+var sigalFlag=1;
+function noRepeat(str){
+	x=$("#sum").html()
+	y=$("#see").html()
+	$("#see").html(y+str);
+	if(sigalFlag===1){
+		$("#sum").html(x+str);
+		sigalFlag=0;
+		return ;
+	}
+	if(sigalFlag===0){
+		x=x.substring(0,x.length-1);
+		$("#sum").html(x+str);
+		return ;
+	}
+}
+
+function yesRepeat(){
+	if(sigalFlag===0){
+		sigalFlag=2;
+	}
+}
+function getNum1(){
+	if(!isNaN(toNum())){
+		num1=toNum();
+	}
+	return num1;
+}
+function getNum2(){
+	if(sigalFlag===2){
+		num=$("#sum").html().split(/[-+/*\/\%]/);
+		if(num.length===2)
+			num2=num[1];
+		if(num.length===3)
+			num2=num[2];
+	}
+	else
+		num2=99999;
+	return num2;
+}
+function count(number1,number2,str){
+	var n1= Number(number1);
+	var n2= Number(number2);
+	if(str==='+')
+		return n1+n2;
+	if(str==='-'){
+		if(n1%1!==0||n2%1!==0){
+			n1*=100000000;
+			n2*=100000000;
+			return (parseInt(n1-n2))/100000000;
+		}
+		return n1-n2;
+	}
+	if(str==='*'){
+		if(n1%1!==0||n2%1!==0){
+			n1*=100000000;
+			n2*=100000000;
+			return (parseInt(n1*n2))/10000000000000000;
+		}
+		return n1*n2;
+	}
+	if(str==='/')
+		return n1/n2;
+	if(str==='%')
+		return n1%n2;
+	else
+		return 0;
+}
+</script>
+</html>
